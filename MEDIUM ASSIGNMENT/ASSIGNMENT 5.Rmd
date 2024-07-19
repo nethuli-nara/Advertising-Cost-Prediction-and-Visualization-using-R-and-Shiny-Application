@@ -1,0 +1,105 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+ds1 = read.csv("Advertising.csv")
+ds1
+```
+
+
+
+BASIC FUNCTIONS
+
+```{r}
+head(ds1, 6)
+```
+
+```{r}
+str(ds1)
+```
+
+```{r}
+summary(ds1)
+```
+```{r}
+is.na(ds1)
+```
+
+```{r}
+colSums(is.na(ds1))
+```
+```{r}
+unique(ds1$Sales)
+```
+
+REGRESSION MODELS AND PREDICTIONS 
+
+```{r}
+model = lm(Sales ~ TV, data = ds1)
+summary(model)
+```
+
+```{r}
+new_tv_ad_spend = data.frame(TV = c(150,200,250,300))
+predicted_sales = predict(model, newdata = new_tv_ad_spend)
+predicted_sales
+```
+```{r}
+model1 = lm(Sales ~ Radio, data = ds1)
+summary(model1)
+```
+
+```{r}
+model2 = lm(Sales ~ Newspaper, data = ds1)
+summary(model2)
+```
+
+DATA VISUALIZATION
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+ggplot(ds1, aes(x=TV, y=Sales, color=X))+
+  geom_point()+ labs(title = "Sales vs. TV Advertising", x = "TV Advertising Spend", y = "Sales")
+```
+
+```{r}
+ggplot(ds1, aes(x=Radio, y=Sales, color=X))+
+  geom_point()+ labs(title = "Sales vs. Radio Advertising", x = "Radio Advertising Spend", y = "Sales")
+```
+
+```{r}
+ggplot(ds1, aes(x=Newspaper, y=Sales, color=X))+
+  geom_point()+ labs(title = "Sales vs. Newspaper Advertising", x = "Newspaper Advertising Spend", y = "Sales")
+```
+
+```{r}
+ggplot(ds1, aes(x=TV, y=Sales, color=X))+
+  geom_area()+ labs(title = "Sales vs. TV Advertising", x = "TV Advertising Spend", y = "Sales")
+```
+```{r}
+ggplot(ds1, aes(x=TV, y=Sales, color=X))+
+  geom_boxplot()+ labs(title = "Sales vs. TV Advertising", x = "TV Advertising Spend", y = "Sales")
+```
+```{r}
+par(mfrow = c(1, 3))
+
+plot(ds1$TV, ds1$Sales, main = "Sales vs. TV Advertising",
+     xlab = "TV Advertising Spend", ylab = "Sales", pch = 20, col = "blue")
+abline(lm(Sales ~ TV, data = ds1), col = "red")
+
+
+plot(ds1$Radio, ds1$Sales, main = "Sales vs. Radio Advertising",
+     xlab = "Radio Advertising Spend", ylab = "Sales", pch = 20, col = "blue")
+abline(lm(Sales ~ Radio, data = ds1), col = "red")
+
+
+plot(ds1$Newspaper, ds1$Sales, main = "Sales vs. Newspaper Advertising",
+     xlab = "Newspaper Advertising Spend", ylab = "Sales", pch = 20, col = "blue")
+abline(lm(Sales ~ Newspaper, data = ds1), col = "red")
+```
+
